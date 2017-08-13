@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<menuitem name="Modulo Prueba" id="menu_main_modulo_id" sequence="10"/>
+		<menuitem name="Personas" id="menu_personas_id" sequence="10" parent="menu_main_modulo_id"/>
+
+		<record id="view_tree_modulo_prueba_persona" model="ir.ui.view">
+			<field name="name">persona_tree_view</field>
+			<field name="model">persona</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Persona" colors="red:tipo_documento == '1'; blue:tipo_documento == '2'">
+					<field name="tipo_documento"/>
+					<field name="numero_documento"/>
+					<field name="name"/>
+					<field name="fecha_registro"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_form_modulo_prueba_persona" model="ir.ui.view">
+			<field name="name">persona_form_view</field>
+			<field name="model">persona</field>
+			<field name="arch" type="xml">
+				<form string="persona" version="7.0">
+					<group>
+						<field name="name"/>
+					</group>
+					<group>
+						<group>
+							<field name="tipo_documento" on_change="onchange_tipo_documento()"/>
+							<field name="proveedor"/>
+							<field name="fecha_registro" readonly="1"/>
+						</group>
+						<group>
+							<field name="numero_documento" on_change="onchange_numero_documento(numero_documento, tipo_documento)"/>
+							<field name="cliente"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Comentarios">
+							<group>
+								<field name="comentarios"/>
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_search_modulo_prueba_persona" model="ir.ui.view">
+			<field name="name">persona_search_view</field>
+			<field name="model">persona</field>
+			<field name="arch" type="xml">
+				<search string="persona">
+					<field name="name" string="Nombre" filter_domain="[('name','ilike', self)]"/>
+					<separator/>
+					<group expand="0" string="Agrupar por...">
+					   <filter string="Tipo Documento" icon="terp-personal" name="tipo_documento" context="{'group_by' : 'tipo_documento'}"/>
+					   <filter string="Fecha Registro" icon="terp-personal" name="fecha_registro" context="{'group_by' : 'fecha_registro'}"/>
+				   </group>
+				</search>
+			</field>
+		</record>
+
+		<!--record id="action_persona_id" model="ir.actions.act_window">
+			<field name="name">Persona</field>
+			<field name="res_model">persona</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" eval="view_search_modulo_prueba_persona"/>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+		</record-->
+
+        <record model="ir.actions.act_window" id="action_persona_id">
+			<field name="name">Persona</field>
+			<field name="res_model">persona</field>
+			<field name="search_view_id" eval="view_search_modulo_prueba_persona"/>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_persona_id_view_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_tree_modulo_prueba_persona"/>
+            <field name="act_window_id" ref="action_persona_id"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_persona_id_view_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_form_modulo_prueba_persona"/>
+            <field name="act_window_id" ref="action_persona_id"/>
+        </record>
+
+		<menuitem id="menu_persona_personas_id" parent="menu_personas_id" action="action_persona_id" sequence="10"/>
+	</data>
+</openerp>
