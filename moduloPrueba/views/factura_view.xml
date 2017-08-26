@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<menuitem name="Factura" id="menu_factura_id" sequence="50" parent="menu_main_modulo_id"/>
+
+		<record id="view_tree_modulo_prueba_factura" model="ir.ui.view">
+			<field name="name">factura_tree_view</field>
+			<field name="model">factura</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Producto">
+					<field name="name"/>
+					<field name="tipo"/>
+					<field name="cliente_id"/>
+					<field name="monto_total"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_form_modulo_prueba_factura" model="ir.ui.view">
+			<field name="name">factura_form_view</field>
+			<field name="model">factura</field>
+			<field name="arch" type="xml">
+				<form string="Factura" version="7.0">
+		            <header>
+		                <button name="validar_factura" type="object" string="Validar" states="borrador" class="oe_highlight"/>
+		                <button name="procesar_factura" type="object" string="Procesar" states="validada" class="oe_highlight"/>
+		                <button name="cargar_productos" type="object" string="Cargar Productos" states="borrador" class="oe_highlight"/>
+		                <button name="redireccionar_cliente" type="object" string="Abrir Cliente" states="borrador" class="oe_highlight"/>
+		                <button name="abrir_popup1" type="object" string="Popup 1" states="borrador" class="oe_highlight"/>
+		                <button name="%(action_wizard_factura)d" string="Popup 2" type="action" states="borrador" class="oe_highlight"/>
+		                <field name="state" widget="statusbar" statusbar_visible="borrador,validada,procesada"/>
+		            </header>
+					<sheet>
+						<group>
+							<group>
+								<field name="numero" attrs="{'readonly':[('state','!=','borrador')]}"/>
+								<field name="cliente_id" attrs="{'readonly':[('state','!=','borrador')]}"/>
+							</group>
+							<group>
+								<field name="tipo" attrs="{'readonly':[('state','!=','borrador')]}" on_change="onchange_tipo(tipo)"/>
+								<field name="fecha_factura" attrs="{'readonly':[('state','!=','borrador')]}"/>
+							</group> 
+						</group>
+						<notebook>
+							<page string="Detalle Factura">
+								<group>
+									<field name="detalle_ids" nolabel="1" attrs="{'readonly':[('state','!=','borrador')]}">
+										<tree>
+											<field name="producto_id"/>
+											<field name="cantidad"/>
+											<field name="precio_unitario"/>
+											<field name="precio_total"/>
+										</tree>
+									</field>
+								</group>
+							</page>
+							<page string="Detalle Factura 2">
+								<group>
+									<field name="detalle_ids2" nolabel="1" attrs="{'readonly':[('state','!=','borrador')]}">
+										<!-- editable='bottom' create="0" delete="0" (Opciones para el Tree del Field detalle_ids2) -->
+										<tree editable='bottom'>
+											<field name="producto_id" on_change="onchange_cambiarproducto(producto_id)"/>
+											<field name="cantidad" on_change="onchange_cambiarcantidad(precio_unitario, cantidad)"/>
+											<field name="precio_unitario"/>
+											<field name="precio_total"/>
+										</tree>
+									</field>
+								</group>
+							</page>
+							<page string="Comentarios">
+								<group>
+									<field name="comentarios" attrs="{'readonly':[('state','!=','borrador')]}"/>
+								</group>
+							</page>
+							<page string="Ocultar" attrs="{'invisible':[('tipo','=','compra')]}">
+								<group>
+									<h1>Ocultar cuando es Factura de Compra</h1>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_factura_id" model="ir.actions.act_window">
+			<field name="name">Factura</field>
+			<field name="res_model">factura</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<menuitem id="menu_factura_facturas_id" parent="menu_factura_id" action="action_factura_id" sequence="10"/>
+
+
+
+		<record id="view_form_modulo_prueba_detalle_factura" model="ir.ui.view">
+			<field name="name">detalle_factura_form_view</field>
+			<field name="model">detalle.factura</field>
+			<field name="arch" type="xml">
+				<form string="Detalle Factura" version="7.0">
+					<sheet>
+						<group>
+							<group>
+								<field name="producto_id"/>
+								<field name="precio_unitario"/>
+							</group>
+							<group>
+								<field name="cantidad"/>
+								<field name="precio_total"/>
+							</group> 
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

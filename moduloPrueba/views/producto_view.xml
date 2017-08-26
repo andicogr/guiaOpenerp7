@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<menuitem name="Productos" id="menu_producto_id" sequence="30" parent="menu_main_modulo_id"/>
+
+		<record id="view_tree_modulo_prueba_producto" model="ir.ui.view">
+			<field name="name">producto_tree_view</field>
+			<field name="model">producto</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Producto">
+					<field name="nombre_producto"/>
+					<field name="categoria_id"/>
+					<field name="precio"/>
+					<field name="stock"/>
+					<field name="stock_real"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_form_modulo_prueba_producto" model="ir.ui.view">
+			<field name="name">producto_form_view</field>
+			<field name="model">producto</field>
+			<field name="arch" type="xml">
+				<form string="Producto" version="7.0">
+					<sheet>
+						<div class="oe_title">
+							<label for="nombre_producto" string="Producto"/>
+							<div>
+								<h1><field name="nombre_producto" class="oe_inline"/></h1>
+							</div>
+						</div>
+						<group>
+							<group>
+								<!--widget="selection"-->
+								<field name="categoria_id" options="{'no_open': True}"/>
+								<field name="tipo"/>
+								<field name="precio"/>
+							</group>
+							<group>
+								<field name="stock"/>
+								<field name="stock_real"/>
+								<field name="fecha_registro"/>
+							</group> 
+						</group>
+						<notebook>
+							<page string="Descripcion">
+								<group>
+									<field name="descripcion"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_producto_id" model="ir.actions.act_window">
+			<field name="name">Producto</field>
+			<field name="res_model">producto</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" eval="False"/>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<menuitem id="menu_producto_productos_id" parent="menu_producto_id" action="action_producto_id" sequence="10"/>
+
+
+
+		<record id="view_form_modulo_prueba_producto_categoria" model="ir.ui.view">
+			<field name="name">producto_categoria_form_view</field>
+			<field name="model">categoria.producto</field>
+			<field name="arch" type="xml">
+				<form string="Producto Categoria" version="7.0">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" required="1"/>
+							</group>
+							<group>
+								<field name="activo"/>
+							</group> 
+						</group>
+						<notebook>
+							<page string="Descripcion">
+								<group>
+									<field name="descripcion"/>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

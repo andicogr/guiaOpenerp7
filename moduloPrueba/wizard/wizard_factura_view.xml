@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="view_wizard_factura_form" model="ir.ui.view">
+            <field name="name">wizard.factura</field>
+            <field name="model">wizard.factura</field>
+            <field name="arch" type="xml">
+            <form string="Wizard Factura" version="7.0">
+                <group>
+                   <group>
+                        <field name="cantidad"/>
+                        <field name="tipo_persona" readonly="1"/>
+                   </group> 
+                   <group>
+                        <field name="persona_id"/>
+                        
+                   </group>
+                </group>
+                <footer>
+                    <button string="Guardar" name="guardar" type="object" class="oe_highlight"/>
+                     o 
+                    <button string="Cancelar" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_factura" model="ir.actions.act_window">
+            <field name="name">wizard.factura</field>
+            <field name="res_model">wizard.factura</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wizard_factura_form" />
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

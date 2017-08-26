@@ -39,6 +39,9 @@ Descripcion de un modulo de Pruebas.
     'data':[
         'views/persona_view.xml',
         'views/cliente_view.xml',
+        'views/producto_view.xml',
+        'views/factura_view.xml',
+        'wizard/wizard_factura_view.xml',
     ],
     'installable': True
 }
